@@ -1,5 +1,6 @@
 package com.votacao.desafio.service;
 
+import com.votacao.desafio.controller.dto.cpf.CpfStatusToGetDTO;
 import com.votacao.desafio.controller.dto.voto.ResultadoToGetDTO;
 import com.votacao.desafio.controller.dto.voto.VotoToCreateDTO;
 import com.votacao.desafio.domain.Pauta;
@@ -10,6 +11,7 @@ import com.votacao.desafio.repository.VotoRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 public class VotoService {
 
@@ -64,6 +66,20 @@ public class VotoService {
                 .totalSim(totalVotosPositivos)
                 .totalNao(totalVotosNegativos)
                 .statusFinal(resultado)
+                .build();
+    }
+
+    public CpfStatusToGetDTO verificarCpf(String cpf) {
+        Random random = new Random();
+
+        if (!random.nextBoolean()) {
+           return CpfStatusToGetDTO.builder()
+                   .status("UNABLE_TO_VOTE")
+                   .build();
+        }
+
+        return CpfStatusToGetDTO.builder()
+                .status("ABLE_TO_VOTE")
                 .build();
     }
 }

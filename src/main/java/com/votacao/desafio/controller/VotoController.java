@@ -1,5 +1,7 @@
 package com.votacao.desafio.controller;
 
+import com.votacao.desafio.controller.dto.cpf.CpfStatusToGetDTO;
+import com.votacao.desafio.controller.dto.cpf.CpfToGetStatusDTO;
 import com.votacao.desafio.controller.dto.voto.ResultadoToGetDTO;
 import com.votacao.desafio.controller.dto.voto.VotoToCreateDTO;
 import com.votacao.desafio.domain.Voto;
@@ -36,5 +38,11 @@ public class VotoController {
     public ResponseEntity<ResultadoToGetDTO> obterResultado(@PathVariable Long pautaId) {
         ResultadoToGetDTO resultado = votoService.contabilizarVotos(pautaId);
         return ResponseEntity.ok(resultado);
+    }
+
+    @PostMapping("/verificar-cpf")
+    public ResponseEntity<CpfStatusToGetDTO> verificarCpf(@Valid @RequestBody CpfToGetStatusDTO cpfToGetStatusDTO){
+        CpfStatusToGetDTO status = votoService.verificarCpf(cpfToGetStatusDTO.getCpfAssociado());
+        return ResponseEntity.ok(status);
     }
 }

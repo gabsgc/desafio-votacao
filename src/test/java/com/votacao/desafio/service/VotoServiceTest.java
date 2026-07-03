@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 
+import com.votacao.desafio.controller.dto.cpf.CpfStatusToGetDTO;
 import com.votacao.desafio.controller.dto.voto.ResultadoToGetDTO;
 import com.votacao.desafio.controller.dto.voto.VotoToCreateDTO;
 import org.junit.jupiter.api.Test;
@@ -98,5 +100,29 @@ class VotoServiceTest {
         assertThat(resultado.getStatusFinal()).isEqualTo("APROVADA");
         assertThat(resultado.getTotalSim()).isEqualTo(5);
         assertThat(resultado.getTotalNao()).isEqualTo(3);
+    }
+
+
+    private final String CPF_VALIDO = "12345678909";
+    private final Random random = new Random();
+
+    @Test
+    void verificarCpf_quandoRandomTrue_deveRetornarAbleToVote() {
+        Mockito.when(random.nextBoolean())
+                .thenReturn(true);
+
+        CpfStatusToGetDTO resultado = votoService.verificarCpf(CPF_VALIDO);
+
+        assertThat(resultado.getStatus()).isEqualTo("ABLE_TO_VOTE");
+    }
+
+    @Test
+    void verificarCpf_quandoRandomFalse_deveRetornarUnableToVote() {
+        Mockito.when(random.nextBoolean())
+                .thenReturn(false);
+
+        CpfStatusToGetDTO resultado = votoService.verificarCpf(CPF_VALIDO);
+
+        assertThat(resultado.getStatus()).isEqualTo("UNABLE_TO_VOTE");
     }
 }
