@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class CpfToGetStatusDTO implements Serializable {
 
     @NotBlank(message = "O CPF é obrigatório")
-    @CPF(message = "COF inválido")
+    @CPF(message = "CPF inválido")
     private String cpfAssociado;
 
 }
